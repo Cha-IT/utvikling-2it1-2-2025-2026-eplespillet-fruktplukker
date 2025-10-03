@@ -11,13 +11,25 @@ function nyFrukt()
     frukt.innerHTML = "🍎"; // Du kan endre dette til forskjellige frukt emojis
     frukt.style.fontSize = "2em";
     frukt.style.position = "absolute";
-    frukt.style.left = Math.random() * window.innerWidth + 'px'; // Plasser frukten på en tilfeldig x-posisjon
-    frukt.style.top = Math.random() * window.innerHeight + 'px'; // Plasser frukten på en tilfeldig y-posisjon
+    const fruktSpawnLeft = Math.random() * window.innerWidth / 1.1; // Plasser frukten på en tilfeldig x-posisjon
+    frukt.style.left = fruktSpawnLeft + "px";
+    const fruktSpawnTop = window.innerHeight - 70; // Plasser frukten på en tilfeldig y-posisjon
+    frukt.style.top = fruktSpawn + "px"; 
     document.body.appendChild(frukt);
- 
+
     // Når frukten klikkes, fjern den fra skjermen
     frukt.addEventListener("click", fjernFrukt)
+
+    let posLeft = fruktSpawnLeft;
+
+    function moveLeft(timestamp) {
+        posLeft += 1
+        frukt.style.left = posLeft + "px";
+        requestAnimationFrame(moveLeft)
+    }
+    requestAnimationFrame(moveLeft)
 }
+
 
 /* Legg merke til bokstaven e inne i parentesen på linja under. 
 Dette betyr at vi sender informasjon om hendelsen (event) som trigget funksjonen inn i funksjonen. e kalles hendelses-objektet */
@@ -26,3 +38,4 @@ function fjernFrukt(e)
     document.body.removeChild(e.target); 
     //e.target er det elementet som trigget hendelsen, det vil si elementet vi klikket på for å aktivere funksjonen.
 }
+
