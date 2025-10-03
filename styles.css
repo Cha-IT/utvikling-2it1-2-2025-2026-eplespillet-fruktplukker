@@ -1,0 +1,59 @@
+   body{
+height: 100vh;
+overflow: hidden;
+   }
+   
+   .eple {
+      animation: fall 3s linear forwards, rotate 3s linear forwards;
+      background-color: rgba(255, 255, 255, 0);
+      border: none
+      
+    }
+
+     .bombE {
+      animation: fall 3s linear forwards, rotate 3s linear forwards;
+      background-color: rgba(255, 255, 255, 0);
+      border: none
+      
+    }
+
+    .poelnEL{
+        font-size: larger;
+    }
+
+    #poengDiv {
+  position: fixed;
+  top: 5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background: rgba(0, 0, 0, 0.5); /* optional for visibility */
+  padding: 10px 20px;
+  border-radius: 10px;
+  z-index: 1000;
+}
+
+
+
+
+    @keyframes fall {
+      0% {
+        top: 0;
+      }
+      
+      100% {
+        top: 100vh;
+        display: none;
+      }
+    }
+
+    @keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
