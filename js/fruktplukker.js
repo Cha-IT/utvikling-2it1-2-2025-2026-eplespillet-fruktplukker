@@ -5,24 +5,141 @@ document.body.appendChild(button);
 // Når knappen klikkes, generer en ny frukt
 button.addEventListener("click", nyFrukt)
 
+const OppLvL = document.querySelector("#OppgraderLvL")
+
+let OppgraderLvL = 2
+
+OppLvL.innerHTML = OppgraderLvL
+
+let OppgraderKost = 10
+
+let eplePoeng = document.querySelector("#Poeng")
+eplePoeng.innerHTML = 0
+let Poeng = 0
+
 function nyFrukt() 
 {
+    let whichFruit = Math.floor(Math.random() * OppgraderLvL)
+
+    let pointsGiven = 0
+
     const frukt = document.createElement("div");
-    frukt.innerHTML = "🍎"; // Du kan endre dette til forskjellige frukt emojis
-    frukt.style.fontSize = "2em";
+    if (whichFruit == 0) {
+        frukt.type = {
+            navn: "bombe",
+            icon: "💣",
+            poeng: -10
+        }
+        frukt.innerHTML = frukt.type.icon; // Du kan endre dette til forskjellige frukt emojis
+        
+    }
+    else if (whichFruit == 1) {
+        frukt.type = {
+            navn: "eple",
+            icon: "🍎",
+            poeng: 1
+        }
+        frukt.innerHTML = frukt.type.icon; // Du kan endre dette til forskjellige frukt emojis
+        
+    }
+
+    else if (whichFruit == 2) {
+        frukt.type = {
+            navn: "banan",
+            icon: "🍌",
+            poeng: 3
+        }
+        frukt.innerHTML = frukt.type.icon; // Du kan endre dette til forskjellige frukt emojis
+        
+    }
+
+    else if (whichFruit == 3) {
+        frukt.type = {
+            navn: "Appelsin",
+            icon: "🍊",
+            poeng: 5
+        }
+        frukt.innerHTML = frukt.type.icon; // Du kan endre dette til forskjellige frukt emojis
+        
+    }
+
+    else if (whichFruit == 4) {
+        frukt.type = {
+            navn: "vannMelon",
+            icon: "🍉",
+            poeng: 10
+        }
+        frukt.innerHTML = frukt.type.icon; // Du kan endre dette til forskjellige frukt emojis
+        
+    }
+
+    
+
+    frukt.style.fontSize = "3em";
     frukt.style.position = "absolute";
-    frukt.style.left = Math.random() * window.innerWidth + 'px'; // Plasser frukten på en tilfeldig x-posisjon
-    frukt.style.top = Math.random() * window.innerHeight + 'px'; // Plasser frukten på en tilfeldig y-posisjon
+
+    const fruktSpawnLeft = Math.random() * window.innerWidth / 1.5; // Plasser frukten på en tilfeldig x-posisjon
+    const fruktSpawnTop = window.innerHeight - 70; // Plasser frukten på en tilfeldig y-posisjon
+    frukt.style.top = fruktSpawnTop + "px"; 
     document.body.appendChild(frukt);
+    
  
+
     // Når frukten klikkes, fjern den fra skjermen
     frukt.addEventListener("click", fjernFrukt)
+
+    let posLeft = fruktSpawnLeft;
+    let randomSpeed = Math.random() + 0.5;
+    let baseTop = fruktSpawnTop;
+    let startTime = null;
+    const moveDuration = 3000; // total animasjonstid i ms
+    const amplitude = 300; // px
+
+    function moveLeft(timestamp) {
+        posLeft += randomSpeed;
+        frukt.style.left = posLeft + "px";
+        requestAnimationFrame(moveLeft);
+    }
+
+    function moveUpDownSmooth(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const elapsed = timestamp - startTime;
+        if (elapsed < moveDuration) {
+            // Sine wave for smooth up and down
+            const progress = elapsed / moveDuration;
+            // Fra baseTop, opp og ned med amplitude
+            const offset = Math.sin(progress * Math.PI) * amplitude;
+            frukt.style.top = (baseTop - offset) + "px";
+            requestAnimationFrame(moveUpDownSmooth);
+        } else {
+            frukt.remove();
+        }
+    }
+
+    requestAnimationFrame(moveLeft);
+    requestAnimationFrame(moveUpDownSmooth);
 }
+
 
 /* Legg merke til bokstaven e inne i parentesen på linja under. 
 Dette betyr at vi sender informasjon om hendelsen (event) som trigget funksjonen inn i funksjonen. e kalles hendelses-objektet */
 function fjernFrukt(e)
 {
     document.body.removeChild(e.target); 
+    Poeng = Poeng + e.target.type.poeng
+    eplePoeng.innerHTML = Poeng
+    
     //e.target er det elementet som trigget hendelsen, det vil si elementet vi klikket på for å aktivere funksjonen.
+}
+
+const Oppgrader = document.querySelector("#Oppgrader")
+
+
+
+Oppgrader.onclick = function() {
+    if (eplePoeng.innerHTML == OppgraderKost)
+        OppgraderLvL+= 1
+        Poeng = Poeng - OppgraderKost
+        eplePoeng.innerHTML=Poeng
+        OppgraderKost*= 5
 }
